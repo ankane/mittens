@@ -1,0 +1,3 @@
+[submodule "vendor/snowball"]
+	path = vendor/snowball
+	url = https://github.com/snowballstem/snowball.git
