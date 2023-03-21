@@ -4,6 +4,7 @@ class TestStemmer < Minitest::Test
   def test_works
     stemmer = Mittens::Stemmer.new
     assert_equal "tomato", stemmer.stem("tomatos")
+    assert_equal "consign", stemmer.stem("consignment")
   end
 
   def test_nil
@@ -15,7 +16,8 @@ class TestStemmer < Minitest::Test
 
   def test_language
     stemmer = Mittens::Stemmer.new(language: "french")
-    assert_equal "tomatos", stemmer.stem("tomatos")
+    assert_equal "continu", stemmer.stem("continuait")
+    assert_equal "mainten", stemmer.stem("maintenaient")
   end
 
   def test_languages
