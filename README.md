@@ -25,7 +25,7 @@ stemmer = Mittens::Stemmer.new
 Stem a word
 
 ```ruby
-stemmer.stem("tomatos")
+stemmer.stem("tomatos") # "tomato"
 ```
 
 ## Languages
