@@ -8,8 +8,10 @@ jobs:
         include:
           - ruby: 3.2
             os: ubuntu-latest
-          - ruby: "3.0"
+          - ruby: 3.1
             os: macos-latest
+          - ruby: "3.0"
+            os: windows-latest
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
