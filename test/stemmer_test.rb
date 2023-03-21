@@ -19,8 +19,9 @@ class TestStemmer < Minitest::Test
   end
 
   def test_languages
-    assert_includes Mittens::Stemmer.languages, "english"
-    assert_equal 29, Mittens::Stemmer.languages.size
+    languages = Mittens::Stemmer.languages
+    assert_equal 29, languages.size
+    assert_includes languages, "english"
   end
 
   def test_bad_language
