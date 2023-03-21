@@ -6,6 +6,13 @@ class TestStemmer < Minitest::Test
     assert_equal "tomato", stemmer.stem("tomatos")
   end
 
+  def test_nil
+    stemmer = Mittens::Stemmer.new
+    assert_raises(TypeError) do
+      stemmer.stem(nil)
+    end
+  end
+
   def test_language
     stemmer = Mittens::Stemmer.new(language: "french")
     assert_equal "tomatos", stemmer.stem("tomatos")
