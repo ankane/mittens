@@ -1,5 +1,7 @@
+# ext
+require "mittens/ext"
+
 # modules
-require_relative "mittens/ext"
 require_relative "mittens/version"
 
 module Mittens
