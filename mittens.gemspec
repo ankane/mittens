@@ -18,5 +18,5 @@ Gem::Specification.new do |spec|
   spec.require_path  = "lib"
   spec.extensions    = ["ext/mittens/extconf.rb"]
 
-  spec.required_ruby_version = ">= 3"
+  spec.required_ruby_version = ">= 3.2"
 end
