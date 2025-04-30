@@ -1,4 +1,9 @@
+#ifdef USE_SYSTEM_LIBSTEMMER
+#include <libstemmer.h>
+#else
 #include "libstemmer.h"
+#endif
+
 #include "ruby/ruby.h"
 
 typedef struct stemmer {
