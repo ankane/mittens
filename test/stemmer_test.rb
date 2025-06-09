@@ -3,7 +3,7 @@ require_relative "test_helper"
 class TestStemmer < Minitest::Test
   def test_works
     stemmer = Mittens::Stemmer.new
-    assert_equal "tomato", stemmer.stem("tomatos")
+    assert_equal "tomato", stemmer.stem("tomatoes")
     assert_equal "consign", stemmer.stem("consignment")
   end
 
