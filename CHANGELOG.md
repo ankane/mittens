@@ -1,3 +1,7 @@
+## 0.3.0 (unreleased)
+
+- Updated Snowball to 3.0.1
+
 ## 0.2.0 (2025-04-03)
 
 - Dropped support for Ruby < 3.2

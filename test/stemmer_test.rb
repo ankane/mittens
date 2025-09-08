@@ -22,7 +22,7 @@ class TestStemmer < Minitest::Test
 
   def test_languages
     languages = Mittens::Stemmer.languages
-    assert_equal 29, languages.size
+    assert_equal 32, languages.size
     assert_includes languages, "english"
   end
 
