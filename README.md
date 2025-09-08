@@ -2,7 +2,7 @@
 
 Stemming for Ruby, powered by [Snowball](https://github.com/snowballstem/snowball)
 
-:snowflake: Supports 28 languages
+:snowflake: Supports 30 languages
 
 [![Build Status](https://github.com/ankane/mittens/actions/workflows/build.yml/badge.svg)](https://github.com/ankane/mittens/actions)
 
