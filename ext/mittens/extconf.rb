@@ -4,7 +4,14 @@ require "open3"
 vendor = File.expand_path("../../vendor/snowball", __dir__)
 # CFLAGS from vendor/snowball/GNUmakefile and -fPIC
 cflags = "-O2 -W -Wall -Wmissing-prototypes -Wmissing-declarations -fPIC"
-output, status = Open3.capture2("make", "CFLAGS=#{cflags}", chdir: vendor)
+
+make_cmd = "make"
+if RbConfig::CONFIG["host_os"] =~ /bsd|dragonfly/i
+  gmake = find_executable("gmake")
+  make_cmd = gmake if gmake
+end
+
+output, status = Open3.capture2(make_cmd, "CFLAGS=#{cflags}", chdir: vendor)
 puts output
 raise "Command failed" unless status.success?
 
