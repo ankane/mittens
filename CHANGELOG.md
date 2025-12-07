@@ -1,3 +1,7 @@
+## 0.3.1 (unreleased)
+
+- Fixed installation on FreeBSD
+
 ## 0.3.0 (2025-09-12)
 
 - Updated Snowball to 3.0.1
