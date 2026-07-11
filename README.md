@@ -2,7 +2,7 @@
 
 Stemming for Ruby, powered by [Snowball](https://github.com/snowballstem/snowball)
 
-:snowflake: Supports 30 languages
+:snowflake: Supports 30+ languages
 
 [![Build Status](https://github.com/ankane/mittens/actions/workflows/build.yml/badge.svg)](https://github.com/ankane/mittens/actions)
 
@@ -36,7 +36,7 @@ Specify the language
 stemmer = Mittens::Stemmer.new(language: "french")
 ```
 
-Supports `arabic`, `armenian`, `basque`, `catalan`, `danish`, `dutch`, `dutch_porter`, `english`, `esperanto`, `estonian`, `finnish`, `french`, `german`, `greek`, `hindi`, `hungarian`, `indonesian`, `irish`, `italian`, `lithuanian`, `nepali`, `norwegian`, `porter`, `portuguese`, `romanian`, `russian`, `serbian`, `spanish`, `swedish`, `tamil`, `turkish`, and `yiddish`
+Supports `arabic`, `armenian`, `basque`, `catalan`, `czech`, `danish`, `dutch`, `dutch_porter`, `english`, `esperanto`, `estonian`, `finnish`, `french`, `german`, `greek`, `hindi`, `hungarian`, `indonesian`, `irish`, `italian`, `lithuanian`, `nepali`, `norwegian`, `persian`, `polish`, `porter`, `portuguese`, `romanian`, `russian`, `serbian`, `sesotho`, `spanish`, `swedish`, `tamil`, `turkish`, and `yiddish`
 
 ## History
 
