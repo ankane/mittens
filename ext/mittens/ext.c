@@ -87,10 +87,10 @@ static VALUE stemmer_languages(VALUE klass)
 
 void Init_ext(void)
 {
-    VALUE rb_mMittens = rb_define_module("Mittens");
-    VALUE rb_cStemmer = rb_define_class_under(rb_mMittens, "Stemmer", rb_cObject);
-    rb_define_alloc_func(rb_cStemmer, stemmer_allocate);
-    rb_define_method(rb_cStemmer, "initialize", stemmer_initialize, -1);
-    rb_define_method(rb_cStemmer, "stem", stemmer_stem, 1);
-    rb_define_singleton_method(rb_cStemmer, "languages", stemmer_languages, 0);
+    VALUE mMittens = rb_define_module("Mittens");
+    VALUE cStemmer = rb_define_class_under(mMittens, "Stemmer", rb_cObject);
+    rb_define_alloc_func(cStemmer, stemmer_allocate);
+    rb_define_method(cStemmer, "initialize", stemmer_initialize, -1);
+    rb_define_method(cStemmer, "stem", stemmer_stem, 1);
+    rb_define_singleton_method(cStemmer, "languages", stemmer_languages, 0);
 }
