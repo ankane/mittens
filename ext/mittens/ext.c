@@ -4,12 +4,12 @@
 #include "ruby/ruby.h"
 
 typedef struct stemmer {
-    struct sb_stemmer * stemmer;
+    struct sb_stemmer* stemmer;
 } stemmer_t;
 
-static void stemmer_free(void *ptr)
+static void stemmer_free(void* ptr)
 {
-    stemmer_t *stemmer = (stemmer_t *)ptr;
+    stemmer_t* stemmer = (stemmer_t*) ptr;
     // safe to pass null pointer according to docs
     sb_stemmer_delete(stemmer->stemmer);
     xfree(ptr);
@@ -25,7 +25,7 @@ const rb_data_type_t stemmer_data_type = {
 
 static VALUE stemmer_allocate(VALUE klass)
 {
-    stemmer_t *stemmer;
+    stemmer_t* stemmer;
     VALUE obj = TypedData_Make_Struct(klass, stemmer_t, &stemmer_data_type, stemmer);
     stemmer->stemmer = NULL;
     return obj;
@@ -36,7 +36,7 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     VALUE opts;
     rb_scan_args(argc, argv, ":", &opts);
 
-    const char * algorithm = "english";
+    const char* algorithm = "english";
     if (!NIL_P(opts)) {
         VALUE language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
         if (!NIL_P(language)) {
@@ -45,7 +45,7 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
         }
     }
 
-    stemmer_t *stemmer;
+    stemmer_t* stemmer;
     TypedData_Get_Struct(self, stemmer_t, &stemmer_data_type, stemmer);
 
     // in case called multiple times
@@ -62,25 +62,25 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
 
 static VALUE stemmer_stem(VALUE self, VALUE value)
 {
-    stemmer_t *stemmer;
+    stemmer_t* stemmer;
     TypedData_Get_Struct(self, stemmer_t, &stemmer_data_type, stemmer);
 
     Check_Type(value, T_STRING);
 
-    const sb_symbol * word = (const sb_symbol *) RSTRING_PTR(value);
+    const sb_symbol* word = (const sb_symbol*) RSTRING_PTR(value);
     long size = RSTRING_LEN(value);
     if (size > INT_MAX)
         rb_raise(rb_eArgError, "string exceeds max length");
-    const sb_symbol * pointer_out = sb_stemmer_stem(stemmer->stemmer, word, (int) size);
+    const sb_symbol* pointer_out = sb_stemmer_stem(stemmer->stemmer, word, (int) size);
 
-    return rb_utf8_str_new_cstr((char *) pointer_out);
+    return rb_utf8_str_new_cstr((char*) pointer_out);
 }
 
 static VALUE stemmer_languages(VALUE klass)
 {
     VALUE out = rb_ary_new();
 
-    const char **language = sb_stemmer_list();
+    const char** language = sb_stemmer_list();
     while (*language != NULL) {
         rb_ary_push(out, rb_utf8_str_new_cstr(*language));
         language++;
