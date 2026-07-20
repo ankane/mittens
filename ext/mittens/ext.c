@@ -1,3 +1,5 @@
+#include <limits.h>
+
 #include "libstemmer.h"
 #include "ruby/ruby.h"
 
@@ -66,8 +68,10 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
     Check_Type(value, T_STRING);
 
     const sb_symbol * word = (const sb_symbol *) RSTRING_PTR(value);
-    int size = (int) RSTRING_LEN(value);
-    const sb_symbol * pointer_out = sb_stemmer_stem(stemmer->stemmer, word, size);
+    long size = RSTRING_LEN(value);
+    if (size > INT_MAX)
+        rb_raise(rb_eArgError, "string exceeds max length");
+    const sb_symbol * pointer_out = sb_stemmer_stem(stemmer->stemmer, word, (int) size);
 
     return rb_utf8_str_new_cstr((char *) pointer_out);
 }
