@@ -28,7 +28,8 @@ class TestStemmer < Minitest::Test
 
   def test_bad_language
     error = assert_raises(ArgumentError) do
-      Mittens::Stemmer.new(language: "hello")
+      # use mutable string to catch GC issues faster
+      Mittens::Stemmer.new(language: +"hello")
     end
     assert_equal "unknown language: hello", error.message
   end
