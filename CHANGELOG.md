@@ -1,4 +1,4 @@
-## 0.3.3 (unreleased)
+## 0.3.3 (2026-08-05)
 
 - Fixed issue with GC compaction
 
