@@ -3,6 +3,8 @@
 #include "libstemmer.h"
 #include "ruby/ruby.h"
 
+#define GetStemmer(obj, ptr) TypedData_Get_Struct((obj), stemmer_t, &stemmer_data_type, (ptr));
+
 typedef struct stemmer {
     struct sb_stemmer* stemmer;
 } stemmer_t;
@@ -46,7 +48,7 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     }
 
     stemmer_t* stemmer;
-    TypedData_Get_Struct(self, stemmer_t, &stemmer_data_type, stemmer);
+    GetStemmer(self, stemmer);
 
     // in case called multiple times
     sb_stemmer_delete(stemmer->stemmer);
@@ -66,7 +68,7 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
 static VALUE stemmer_stem(VALUE self, VALUE value)
 {
     stemmer_t* stemmer;
-    TypedData_Get_Struct(self, stemmer_t, &stemmer_data_type, stemmer);
+    GetStemmer(self, stemmer);
 
     Check_Type(value, T_STRING);
 
