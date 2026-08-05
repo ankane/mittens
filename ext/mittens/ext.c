@@ -71,6 +71,9 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
     stemmer_t* stemmer;
     GetStemmer(self, stemmer);
 
+    if (stemmer->stemmer == NULL)
+        rb_raise(rb_eRuntimeError, "Stemmer not initialized");
+
     Check_Type(value, T_STRING);
 
     const sb_symbol* word = (const sb_symbol*) StringValuePtr(value);
