@@ -81,6 +81,7 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
     long size = RSTRING_LEN(value);
     if (size > INT_MAX)
         rb_raise(rb_eArgError, "string exceeds max length");
+
     const sb_symbol* pointer_out = sb_stemmer_stem(stemmer->stemmer, word, (int) size);
     int length_out = sb_stemmer_length(stemmer->stemmer);
 
