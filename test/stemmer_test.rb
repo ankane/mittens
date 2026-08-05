@@ -34,7 +34,7 @@ class TestStemmer < Minitest::Test
     assert_equal "unknown language: hello", error.message
   end
 
-  def test_language_null
+  def test_language_null_byte
     error = assert_raises(ArgumentError) do
       Mittens::Stemmer.new(language: "english\0")
     end
