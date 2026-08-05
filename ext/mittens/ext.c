@@ -73,7 +73,7 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
     GetStemmer(self, stemmer);
 
     if (stemmer->stemmer == NULL)
-        rb_raise(rb_eRuntimeError, "Stemmer not initialized");
+        rb_raise(rb_eRuntimeError, "stemmer not initialized");
 
     Check_Type(value, T_STRING);
 
