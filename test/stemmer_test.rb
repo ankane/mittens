@@ -33,4 +33,11 @@ class TestStemmer < Minitest::Test
     end
     assert_equal "unknown language: hello", error.message
   end
+
+  def test_language_null
+    error = assert_raises(ArgumentError) do
+      Mittens::Stemmer.new(language: "english\0")
+    end
+    assert_equal "string contains null byte", error.message
+  end
 end

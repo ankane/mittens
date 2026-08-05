@@ -41,8 +41,7 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     if (!NIL_P(opts)) {
         language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
         if (!NIL_P(language)) {
-            Check_Type(language, T_STRING);
-            algorithm = RSTRING_PTR(language);
+            algorithm = StringValueCStr(language);
         }
     }
 
