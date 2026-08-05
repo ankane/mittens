@@ -52,6 +52,7 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     GetStemmer(self, stemmer);
 
     // in case called multiple times
+    // TODO raise error
     sb_stemmer_delete(stemmer->stemmer);
 
     // if adding support for encoding, may want to change encoding returned from stem
