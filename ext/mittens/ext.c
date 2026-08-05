@@ -78,8 +78,9 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
     if (size > INT_MAX)
         rb_raise(rb_eArgError, "string exceeds max length");
     const sb_symbol* pointer_out = sb_stemmer_stem(stemmer->stemmer, word, (int) size);
+    int length_out = sb_stemmer_length(stemmer->stemmer);
 
-    return rb_utf8_str_new_cstr((char*) pointer_out);
+    return rb_utf8_str_new((char*) pointer_out, (long) length_out);
 }
 
 static VALUE stemmer_languages(VALUE klass)
