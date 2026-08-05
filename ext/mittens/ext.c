@@ -93,7 +93,8 @@ static VALUE stemmer_languages(VALUE klass)
     VALUE out = rb_ary_new();
 
     const char** language = sb_stemmer_list();
-    while (*language != NULL) {
+    while (*language != NULL)
+    {
         rb_ary_push(out, rb_utf8_str_new_cstr(*language));
         language++;
     }
