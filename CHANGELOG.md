@@ -1,3 +1,7 @@
+## 0.3.3 (unreleased)
+
+- Fixed issue with GC compaction
+
 ## 0.3.2 (2026-07-10)
 
 - Updated Snowball to 3.1.1

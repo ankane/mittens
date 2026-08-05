@@ -4,7 +4,10 @@ require "minitest/autorun"
 
 class Minitest::Test
   def setup
-    GC.stress = true if stress?
+    if stress?
+      GC.auto_compact = true
+      GC.stress = true
+    end
   end
 
   def teardown

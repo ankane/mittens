@@ -36,9 +36,10 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     VALUE opts;
     rb_scan_args(argc, argv, ":", &opts);
 
+    VALUE language = Qnil;
     const char* algorithm = "english";
     if (!NIL_P(opts)) {
-        VALUE language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
+        language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
         if (!NIL_P(language)) {
             Check_Type(language, T_STRING);
             algorithm = RSTRING_PTR(language);
@@ -56,6 +57,9 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     if (stemmer->stemmer == NULL) {
         rb_raise(rb_eArgError, "unknown language: %s", algorithm);
     }
+
+    // must be placed after last use of algorithm
+    RB_GC_GUARD(language);
 
     return self;
 }
