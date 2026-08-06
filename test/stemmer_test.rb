@@ -1,13 +1,13 @@
 require_relative "test_helper"
 
 class TestStemmer < Minitest::Test
-  def test_works
+  def test_stem
     stemmer = Mittens::Stemmer.new
     assert_equal "tomato", stemmer.stem("tomatoes")
     assert_equal "consign", stemmer.stem("consignment")
   end
 
-  def test_nil
+  def test_stem_nil
     stemmer = Mittens::Stemmer.new
     assert_raises(TypeError) do
       stemmer.stem(nil)
@@ -26,7 +26,7 @@ class TestStemmer < Minitest::Test
     assert_includes languages, "english"
   end
 
-  def test_bad_language
+  def test_unknown_language
     error = assert_raises(ArgumentError) do
       # use mutable string to catch GC issues faster
       Mittens::Stemmer.new(language: +"hello")
