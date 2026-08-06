@@ -100,6 +100,9 @@ static VALUE stemmer_initialize_copy(VALUE self, VALUE orig)
     stemmer_t* orig_stemmer;
     GetStemmer(orig, orig_stemmer);
 
+    if (stemmer->stemmer != NULL)
+        rb_raise(rb_eRuntimeError, "stemmer already initialized");
+
     stemmer->stemmer = sb_stemmer_new(GetAlgorithm(orig_stemmer->language), NULL);
     if (stemmer->stemmer == NULL)
         rb_raise(rb_eRuntimeError, "could not copy stemmer");
