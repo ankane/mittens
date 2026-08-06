@@ -20,13 +20,7 @@ class TestStemmer < Minitest::Test
     assert_equal "mainten", stemmer.stem("maintenaient")
   end
 
-  def test_languages
-    languages = Mittens::Stemmer.languages
-    assert_equal 36, languages.size
-    assert_includes languages, "english"
-  end
-
-  def test_unknown_language
+  def test_language_unknown
     error = assert_raises(ArgumentError) do
       # use mutable string to catch GC issues faster
       Mittens::Stemmer.new(language: +"hello")
@@ -39,6 +33,12 @@ class TestStemmer < Minitest::Test
       Mittens::Stemmer.new(language: "english\0")
     end
     assert_equal "string contains null byte", error.message
+  end
+
+  def test_languages
+    languages = Mittens::Stemmer.languages
+    assert_equal 36, languages.size
+    assert_includes languages, "english"
   end
 
   def test_dup
