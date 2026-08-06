@@ -93,6 +93,9 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
     const sb_symbol* pointer_out = sb_stemmer_stem(stemmer->stemmer, (const sb_symbol*) word, (int) size);
     int length_out = sb_stemmer_length(stemmer->stemmer);
 
+    // place after last use of word
+    RB_GC_GUARD(value);
+
     return rb_utf8_str_new((char*) pointer_out, (long) length_out);
 }
 
