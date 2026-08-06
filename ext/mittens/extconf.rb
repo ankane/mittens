@@ -10,6 +10,8 @@ output, status = Open3.capture2(make_cmd, "CFLAGS=#{cflags}", chdir: vendor)
 puts output
 raise "Command failed" unless status.success?
 
+append_cflags("-Wall -Wextra -Wpedantic -Wconversion")
+
 $INCFLAGS += " -I$(srcdir)/../../vendor/snowball/include"
 $LDFLAGS += " $(srcdir)/../../vendor/snowball/libstemmer.a"
 
