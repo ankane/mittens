@@ -71,7 +71,7 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
         rb_raise(rb_eNoMemError, "failed to allocate memory");
     }
 
-    // copy (after GetAlgorithm) in case string is modified
+    // copy (after GetAlgorithm) in case string is modified in future
     stemmer->language = rb_obj_dup(language);
 
     return self;
