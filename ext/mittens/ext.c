@@ -29,7 +29,7 @@ static void stemmer_free(void* ptr)
 }
 
 const rb_data_type_t stemmer_data_type = {
-    .wrap_struct_name = "stemmer",
+    .wrap_struct_name = "Mittens::Stemmer",
     .function = {
         .dmark = stemmer_mark,
         .dfree = stemmer_free,
