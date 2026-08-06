@@ -40,4 +40,14 @@ class TestStemmer < Minitest::Test
     end
     assert_equal "string contains null byte", error.message
   end
+
+  def test_dup
+    stemmer = Mittens::Stemmer.new
+    assert_equal "tomato", stemmer.dup.stem("tomatoes")
+  end
+
+  def test_clone
+    stemmer = Mittens::Stemmer.new
+    assert_equal "tomato", stemmer.clone.stem("tomatoes")
+  end
 end

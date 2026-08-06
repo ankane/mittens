@@ -3,11 +3,19 @@
 #include "libstemmer.h"
 #include "ruby/ruby.h"
 
-#define GetStemmer(obj, ptr) TypedData_Get_Struct((obj), stemmer_t, &stemmer_data_type, (ptr));
+#define GetAlgorithm(language) (NIL_P(language) ? "english" : StringValueCStr(language))
+#define GetStemmer(obj, ptr) TypedData_Get_Struct((obj), stemmer_t, &stemmer_data_type, (ptr))
 
 typedef struct stemmer {
     struct sb_stemmer* stemmer;
+    VALUE language;
 } stemmer_t;
+
+static void stemmer_mark(void* ptr)
+{
+    stemmer_t* stemmer = (stemmer_t*) ptr;
+    rb_gc_mark(stemmer->language);
+}
 
 static void stemmer_free(void* ptr)
 {
@@ -20,6 +28,7 @@ static void stemmer_free(void* ptr)
 const rb_data_type_t stemmer_data_type = {
     .wrap_struct_name = "stemmer",
     .function = {
+        .dmark = stemmer_mark,
         .dfree = stemmer_free,
     },
     .flags = RUBY_TYPED_FREE_IMMEDIATELY
@@ -30,28 +39,22 @@ static VALUE stemmer_allocate(VALUE klass)
     stemmer_t* stemmer;
     VALUE obj = TypedData_Make_Struct(klass, stemmer_t, &stemmer_data_type, stemmer);
     stemmer->stemmer = NULL;
+    stemmer->language = Qnil;
     return obj;
 }
 
 static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
 {
+    stemmer_t* stemmer;
+    GetStemmer(self, stemmer);
+
     VALUE opts;
     rb_scan_args(argc, argv, ":", &opts);
 
-    VALUE language = Qnil;
-    const char* algorithm = "english";
     if (!NIL_P(opts))
-    {
-        language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
-        if (!NIL_P(language))
-        {
-            Check_Type(language, T_STRING);
-            algorithm = StringValueCStr(language);
-        }
-    }
+        stemmer->language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
 
-    stemmer_t* stemmer;
-    GetStemmer(self, stemmer);
+    const char* algorithm = GetAlgorithm(stemmer->language);
 
     // in case called multiple times
     // TODO raise error
@@ -63,7 +66,7 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
         rb_raise(rb_eArgError, "unknown language: %s", algorithm);
 
     // must be placed after last use of algorithm
-    RB_GC_GUARD(language);
+    RB_GC_GUARD(stemmer->language);
 
     return self;
 }
@@ -89,6 +92,23 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
     return rb_utf8_str_new((char*) pointer_out, (long) length_out);
 }
 
+static VALUE stemmer_initialize_copy(VALUE self, VALUE orig)
+{
+    stemmer_t* stemmer;
+    GetStemmer(self, stemmer);
+
+    stemmer_t* orig_stemmer;
+    GetStemmer(orig, orig_stemmer);
+
+    stemmer->stemmer = sb_stemmer_new(GetAlgorithm(orig_stemmer->language), NULL);
+    if (stemmer->stemmer == NULL)
+        rb_raise(rb_eRuntimeError, "could not copy stemmer");
+
+    stemmer->language = orig_stemmer->language;
+
+    return self;
+}
+
 static VALUE stemmer_languages(VALUE klass)
 {
     VALUE out = rb_ary_new();
@@ -110,5 +130,6 @@ void Init_ext(void)
     rb_define_alloc_func(cStemmer, stemmer_allocate);
     rb_define_method(cStemmer, "initialize", stemmer_initialize, -1);
     rb_define_method(cStemmer, "stem", stemmer_stem, 1);
+    rb_define_method(cStemmer, "initialize_copy", stemmer_initialize_copy, 1);
     rb_define_singleton_method(cStemmer, "languages", stemmer_languages, 0);
 }

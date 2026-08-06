@@ -1,3 +1,7 @@
+## 0.3.4 (unreleased)
+
+- Fixed `dup` and `clone` methods
+
 ## 0.3.3 (2026-08-05)
 
 - Fixed issue with GC compaction
