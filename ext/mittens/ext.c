@@ -49,6 +49,9 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     stemmer_t* stemmer;
     GetStemmer(self, stemmer);
 
+    if (stemmer->stemmer != NULL)
+        rb_raise(rb_eRuntimeError, "stemmer already initialized");
+
     VALUE opts;
     rb_scan_args(argc, argv, ":", &opts);
 
@@ -56,11 +59,6 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
         stemmer->language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
 
     const char* algorithm = GetAlgorithm(stemmer->language);
-
-    // in case called multiple times
-    // TODO raise error
-    if (stemmer->stemmer != NULL)
-        sb_stemmer_delete(stemmer->stemmer);
 
     // if adding support for encoding, may want to change encoding returned from stem
     stemmer->stemmer = sb_stemmer_new(algorithm, NULL);
