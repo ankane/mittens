@@ -1,4 +1,4 @@
-## 0.3.4 (unreleased)
+## 0.3.4 (2026-08-06)
 
 - Fixed `dup` and `clone` methods
 
