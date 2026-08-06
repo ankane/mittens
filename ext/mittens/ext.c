@@ -58,12 +58,15 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     if (!NIL_P(opts))
         stemmer->language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
 
-    const char* algorithm = GetAlgorithm(stemmer->language);
-
     // if adding support for encoding, may want to change encoding returned from stem
-    stemmer->stemmer = sb_stemmer_new(algorithm, NULL);
+    stemmer->stemmer = sb_stemmer_new(GetAlgorithm(stemmer->language), NULL);
     if (stemmer->stemmer == NULL)
-        rb_raise(rb_eArgError, "unknown language: %s", algorithm);
+    {
+        if (!NIL_P(stemmer->language))
+            rb_raise(rb_eArgError, "unknown language: %" PRIsVALUE, stemmer->language);
+
+        rb_raise(rb_eNoMemError, "failed to allocate memory");
+    }
 
     // must be placed after last use of algorithm
     RB_GC_GUARD(stemmer->language);
