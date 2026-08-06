@@ -46,6 +46,13 @@ class TestStemmer < Minitest::Test
     assert_equal "tomato", stemmer.dup.stem("tomatoes")
   end
 
+  def test_dup_language_modified
+    language = +"english"
+    stemmer = Mittens::Stemmer.new(language: language)
+    language << "!"
+    assert_equal "tomato", stemmer.dup.stem("tomatoes")
+  end
+
   def test_clone
     stemmer = Mittens::Stemmer.new
     assert_equal "tomato", stemmer.clone.stem("tomatoes")
