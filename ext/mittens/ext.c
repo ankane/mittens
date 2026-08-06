@@ -79,8 +79,6 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
     if (stemmer->stemmer == NULL)
         rb_raise(rb_eRuntimeError, "stemmer not initialized");
 
-    Check_Type(value, T_STRING);
-
     const char* word = StringValuePtr(value);
     long size = RSTRING_LEN(value);
     if (size > INT_MAX)
