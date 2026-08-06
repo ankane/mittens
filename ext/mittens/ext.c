@@ -103,7 +103,7 @@ static VALUE stemmer_initialize_copy(VALUE self, VALUE orig)
 
     stemmer->stemmer = sb_stemmer_new(GetAlgorithm(orig_stemmer->language), NULL);
     if (stemmer->stemmer == NULL)
-        rb_raise(rb_eRuntimeError, "could not copy stemmer");
+        rb_raise(rb_eNoMemError, "failed to allocate memory");
 
     stemmer->language = orig_stemmer->language;
 
