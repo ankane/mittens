@@ -20,9 +20,11 @@ static void stemmer_mark(void* ptr)
 static void stemmer_free(void* ptr)
 {
     stemmer_t* stemmer = (stemmer_t*) ptr;
+
     // safe to pass null pointer, but check anyways
     if (stemmer->stemmer != NULL)
         sb_stemmer_delete(stemmer->stemmer);
+
     xfree(ptr);
 }
 
