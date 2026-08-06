@@ -20,8 +20,9 @@ static void stemmer_mark(void* ptr)
 static void stemmer_free(void* ptr)
 {
     stemmer_t* stemmer = (stemmer_t*) ptr;
-    // safe to pass null pointer according to docs
-    sb_stemmer_delete(stemmer->stemmer);
+    // safe to pass null pointer, but check anyways
+    if (stemmer->stemmer != NULL)
+        sb_stemmer_delete(stemmer->stemmer);
     xfree(ptr);
 }
 
@@ -58,7 +59,8 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
 
     // in case called multiple times
     // TODO raise error
-    sb_stemmer_delete(stemmer->stemmer);
+    if (stemmer->stemmer != NULL)
+        sb_stemmer_delete(stemmer->stemmer);
 
     // if adding support for encoding, may want to change encoding returned from stem
     stemmer->stemmer = sb_stemmer_new(algorithm, NULL);
