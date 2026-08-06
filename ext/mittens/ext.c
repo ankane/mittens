@@ -81,12 +81,12 @@ static VALUE stemmer_stem(VALUE self, VALUE value)
 
     Check_Type(value, T_STRING);
 
-    const sb_symbol* word = (const sb_symbol*) StringValuePtr(value);
+    const char* word = StringValuePtr(value);
     long size = RSTRING_LEN(value);
     if (size > INT_MAX)
         rb_raise(rb_eArgError, "string exceeds max length");
 
-    const sb_symbol* pointer_out = sb_stemmer_stem(stemmer->stemmer, word, (int) size);
+    const sb_symbol* pointer_out = sb_stemmer_stem(stemmer->stemmer, (const sb_symbol*) word, (int) size);
     int length_out = sb_stemmer_length(stemmer->stemmer);
 
     return rb_utf8_str_new((char*) pointer_out, (long) length_out);
