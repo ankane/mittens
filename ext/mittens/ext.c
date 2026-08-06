@@ -55,21 +55,22 @@ static VALUE stemmer_initialize(int argc, VALUE* argv, VALUE self)
     VALUE opts;
     rb_scan_args(argc, argv, ":", &opts);
 
+    VALUE language = Qnil;
     if (!NIL_P(opts))
-        stemmer->language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
+        language = rb_hash_aref(opts, ID2SYM(rb_intern("language")));
 
     // if adding support for encoding, may want to change encoding returned from stem
-    stemmer->stemmer = sb_stemmer_new(GetAlgorithm(stemmer->language), NULL);
+    stemmer->stemmer = sb_stemmer_new(GetAlgorithm(language), NULL);
     if (stemmer->stemmer == NULL)
     {
-        if (!NIL_P(stemmer->language))
-            rb_raise(rb_eArgError, "unknown language: %" PRIsVALUE, stemmer->language);
+        if (!NIL_P(language))
+            rb_raise(rb_eArgError, "unknown language: %" PRIsVALUE, language);
 
         rb_raise(rb_eNoMemError, "failed to allocate memory");
     }
 
-    // must be placed after last use of algorithm
-    RB_GC_GUARD(stemmer->language);
+    // copy (after GetAlgorithm) in case string is modified
+    stemmer->language = rb_obj_dup(language);
 
     return self;
 }
