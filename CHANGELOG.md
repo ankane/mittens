@@ -1,3 +1,7 @@
+## 0.3.5 (unreleased)
+
+- Updated Snowball to 3.2.0
+
 ## 0.3.4 (2026-08-06)
 
 - Fixed `dup` and `clone` methods
