@@ -1,4 +1,4 @@
-## 0.3.5 (unreleased)
+## 0.3.5 (2026-10-28)
 
 - Updated Snowball to 3.2.0
 
